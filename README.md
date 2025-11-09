@@ -61,7 +61,7 @@ end
 ```
 
 6. Inside ServerVM or ClientVM, add this :
-```
+```lua
 local message = "DOTASK"
 local AMOUNT_OF_WORK = 100000
 Actor:BindToMessage(message, function()
