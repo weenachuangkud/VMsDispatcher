@@ -55,7 +55,7 @@ end)
 4. Want to dispatch?, Add these lines of code into the VMrunner :
 ```lua
 local message = "DOTASK"
-while task.wait() do
+while task.wait(0.1) do
 	dispatcher:Dispatch(message)
 end
 ```
@@ -63,7 +63,7 @@ end
 6. Inside ServerVM or ClientVM, add this :
 ```lua
 local message = "DOTASK"
-local AMOUNT_OF_WORK = 100000
+local AMOUNT_OF_WORK = 1000
 Actor:BindToMessage(message, function()
 	Actor:SetAttribute("Tasks", Actor:GetAttribute("Tasks")+1)
 	task.desynchronize()
