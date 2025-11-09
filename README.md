@@ -60,19 +60,28 @@ while task.wait(0.1) do
 end
 ```
 
-6. Inside ServerVM or ClientVM, add this :
+6. Inside ServerVM or ClientVM, replace with this :
 ```lua
+local RS = game:GetService("RunService")
+
+local Actor = script.Parent:GetActor()
+
 local message = "DOTASK"
 local AMOUNT_OF_WORK = 1000
+
 Actor:BindToMessage(message, function()
 	Actor:SetAttribute("Tasks", Actor:GetAttribute("Tasks")+1)
-	task.desynchronize()
-	local i = 1
-	while task.wait() and i ~= AMOUNT_OF_WORK do
+	local i = 0
+	local connection
+	connection = RS.Heartbeat:ConnectParallel(function()
+		-- some math idk :P
 		i += 1
-	end
-	task.synchronize()
-	Actor:SetAttribute("Tasks", Actor:GetAttribute("Tasks")-1)
+		if i == AMOUNT_OF_WORK then
+			connection:Disconnect()
+			connection = nil
+			Actor:SetAttribute("Tasks", Actor:GetAttribute("Tasks")-1)
+		end
+	end)
 end)
 ```
 
