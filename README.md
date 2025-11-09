@@ -51,4 +51,5 @@ end)
 
 - If you're doing this correctly, Open MicroProfiler `Ctrl+Window+F6`<br>
 hover the mouse at some frame in the MicroProfiler, then `Ctrl+P`
-mess around to find something called "VMworker" and Number, now it should look like this :
+Mess around to find something called "VMworker" and a Number, now it should look like this :
+![Microprofiler1]()
