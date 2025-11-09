@@ -13,6 +13,7 @@ Parallel scripting Module, aimed at making multi-threading for a lot of Actors e
 # Getting started 
 
 1. Creating a LocalScript or Script in any Folder/Container, and now copy and paste this
+Name it "VMrunner" or smth like that
 > (You can write your own; you don't need to  copy and paste)
 ```lua
 -- Requires
@@ -51,7 +52,31 @@ Actor:BindToMessage("Init", function(MS : ModuleScript?)
 end)
 ```
 
-4. Enjoy/Test
+4. Want to dispatch?, Add these lines of code into the VMrunner :
+```lua
+local message = "DOTASK"
+while task.wait() do
+	dispatcher:Dispatch(message)
+end
+```
+
+6. Inside ServerVM or ClientVM, add this :
+```
+local message = "DOTASK"
+local AMOUNT_OF_WORK = 100000
+Actor:BindToMessage(message, function()
+	Actor:SetAttribute("Tasks", Actor:GetAttribute("Tasks")+1)
+	task.desynchronize()
+	local i = 1
+	while task.wait() and i ~= AMOUNT_OF_WORK do
+		i += 1
+	end
+	task.synchronize()
+	Actor:SetAttribute("Tasks", Actor:GetAttribute("Tasks")-1)
+end)
+```
+
+7. Enjoy/Test
 
 - If you're doing this correctly, Open MicroProfiler `Ctrl+Window+F6`<br>
 hover the mouse at some frame in the MicroProfiler, then `Ctrl+P`
@@ -61,4 +86,4 @@ Mess around to find something called "VMworker" and a Number, now it should look
 > 
 > if you're doing it correctly, you're gonna have 4 separated Threads like in this picture
 
-## You can learn the API in the src
+You can learn the API in the src
