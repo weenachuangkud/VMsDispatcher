@@ -1,7 +1,7 @@
 # VMsDispatcher
 Modded Dispatcher borrowed from SecureCast
 > [!NOTE]
-> I DID NOT OWN THIS MODULE, I JUST MODDED IT
+> I DID NOT OWN THIS MODULE, I JUST MODDED IT(a little)
 > YOU CAN FIND THE ORIGINAL IN [HERE](https://github.com/1Axen/Secure-Cast/blob/main/src/Dispatcher/init.lua)
 
 
