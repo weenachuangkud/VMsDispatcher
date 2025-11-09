@@ -37,7 +37,7 @@ local ServerContainerName = ""
 local ClientControllerName = "WhileWorker"
 local ServerControllerName = "ServerWhileWorker"
 
-local ClientContainerParent = script.Parent:FindFirstChild("VMs")
+local ClientContainerParent = script.Parent:FindFirstChild("VMs") -- Make a folder for this
 local ServerContainerParent = ServerScriptService
 
 local Client = true
