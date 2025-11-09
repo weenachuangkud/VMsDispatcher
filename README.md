@@ -19,11 +19,12 @@ local numWorker = 4
 local dispatcher = ClientVM.new(4, nil)
 ```
 
-2. Installing VMsDispatcher, the explorer tree should look like this
-->Container
-  -> VMsDispatcher(ModuleScript)
-    -> ClientVM(LocalScript)
-    -> ServerVM(Script)
+2. Installing VMsDispatcher, the explorer tree should look like this :
+<br>Container (any Folder / Model)<br>
+│<br>
+├── VMsDispatcher (ModuleScript)<br>
+├── ClientVM (LocalScript)<br>
+└── ServerVM (Script)<br>
 > [!WARNING]
 > ClientVM and ServerVM must have Enabled = false, or will error
 
