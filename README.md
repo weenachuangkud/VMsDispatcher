@@ -52,4 +52,7 @@ end)
 - If you're doing this correctly, Open MicroProfiler `Ctrl+Window+F6`<br>
 hover the mouse at some frame in the MicroProfiler, then `Ctrl+P`
 Mess around to find something called "VMworker" and a Number, now it should look like this :
-![Microprofiler1]()
+![Microprofiler1](https://github.com/weenachuangkud/VMsDispatcher/blob/main/pictures/microprofiler1)
+> You can see the sample code I used and try to copy and paste it
+> 
+> if you're doing it correctly, you're gonna have 4 separated Threads like in this picture
