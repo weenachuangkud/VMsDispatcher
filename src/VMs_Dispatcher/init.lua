@@ -5,7 +5,7 @@
 -- ******************************* --
 
 -- Modded by Mawin_CK
--- Desc : I make it more customizable and more easy to use (Ig lmao)
+-- Desc : I make it more customizable and more easy to use :P
 
 ---- Services ----
 
@@ -31,17 +31,17 @@ export type Dispatcher = typeof(setmetatable({}, {})) & {
 local ServerScript : Script = nil
 local LocalScript : LocalScript = nil
 
-local ClientContainerName = "WhileVMs" 
+local ClientContainerName = "" 
 local ServerContainerName = ""
 
 local ClientControllerName = ""
 local ServerControllerName = ""
 
-local ClientContainerParent = ReplicatedFirst
+local ClientContainerParent = nil
 local ServerContainerParent = ServerScriptService
 
 local Client = true
-local Server = true
+local Server = false
 
 local UseBindableEvent = false
 
@@ -49,6 +49,7 @@ local UseBindableEvent = false
 
 local Dispatcher = {}
 Dispatcher.__index = Dispatcher
+Dispatcher.__type = "Dispatcher"
 
 local Template;
 local Container: Folder;
@@ -59,11 +60,30 @@ local ContainerParent = (IS_SERVER and ServerContainerParent or ClientContainerP
 
 ---- Variables ----
 
+
 ---- Private Functions ----
+
 
 ---- Public Functions ----
 
-function Dispatcher.new(Threads: number, Module: ModuleScript?, Callback: (...any) -> (...any)): Dispatcher
+
+--[[
+	Create a new dispatcher that can be used to dispatch messages to the actors
+	
+	<p><strong>Parameters</strong> : 
+		Threads: number - The number of threads to use
+		Module: ModuleScript? - The module to use for the actors
+		Callback: (...any) -> (...any) - The callback to use for the actors
+		
+	Example :
+		local dispatcher = Dispatcher.new(10, ModuleScript, function(...)
+			print(...)
+		end)
+	</p>
+	
+	@return Dispatcher
+]]
+function Dispatcher.new(Threads: number, Module: ModuleScript?, Callback: (...any) -> (...any)?): Dispatcher
 	--assert(typeof(Module) == "Instance" and Module:IsA("ModuleScript"), "Invalid argument #1 to 'Dispatcher.new', module must be a module script.")
 	assert(type(Threads) == "number" and Threads > 0, "Invalid argument #2 to 'Dispatcher.new', threads must be a positive integer.")
 
@@ -88,7 +108,7 @@ function Dispatcher:Allocate(Threads: number)
 	for Index = 1, Threads do
 		local Actor = Template:Clone()
 		Actor.Parent = Container
-		
+
 		local controller = Actor:FindFirstChild(ControllerName)
 		if controller then
 			controller.Enabled = true
@@ -111,6 +131,21 @@ function Dispatcher:Allocate(Threads: number)
 	table.move(Actors, 1, #Actors, #self.Threads + 1, self.Threads)
 end
 
+--[[
+	Dispatch a message to the actors
+	
+	<p><strong>Parameters</strong> : 
+		Message: string? - The message to send to the actors
+		...: any - The arguments to send to the actors
+		
+		<strong>if the Message is nil, then the actors will be called with the "Dispatch" message</strong>
+		
+		Example : 
+	
+		local dispatcher = Dispatcher.new(10, nil)
+		dispatcher:Dispatch("Hello from client", "Hello from client")
+	</p>
+]]
 function Dispatcher:Dispatch(Message : string?, ...)
 	local Threads: {Actor} = table.clone(self.Threads)
 	table.sort(Threads, function(a: Actor, b: Actor)
