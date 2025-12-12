@@ -20,7 +20,7 @@ local RunService = game:GetService("RunService")
 local IS_SERVER = RunService:IsServer()
 
 export type Dispatcher = typeof(setmetatable({}, {})) & {
-	Module: ModuleScript?,
+	Data: any?,
 	Threads: {Actor},
 	Callback: (...any) -> (...any),
 
@@ -63,12 +63,12 @@ local ContainerParent = (IS_SERVER and ServerContainerParent or ClientContainerP
 
 ---- Public Functions ----
 
-function Dispatcher.new(Threads: number, Module: ModuleScript?, Callback: (...any) -> (...any)): Dispatcher
+function Dispatcher.new(Threads: number, Data : any?, Callback: (...any) -> (...any)): Dispatcher
 	--assert(typeof(Module) == "Instance" and Module:IsA("ModuleScript"), "Invalid argument #1 to 'Dispatcher.new', module must be a module script.")
 	assert(type(Threads) == "number" and Threads > 0, "Invalid argument #2 to 'Dispatcher.new', threads must be a positive integer.")
 
 	local self: Dispatcher = setmetatable({
-		Module = Module,
+		Data = Data,
 		Threads = {},
 		Callback = Callback,
 	} :: any, Dispatcher)
@@ -104,7 +104,7 @@ function Dispatcher:Allocate(Threads: number)
 
 	--> Initialize actors
 	for Index, Actor in Actors do
-		Actor:SendMessage("Init", self.Module)
+		Actor:SendMessage("Init", self.Data)
 	end
 
 	--> Merge actors into threads
