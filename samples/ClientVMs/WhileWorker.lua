@@ -1,6 +1,6 @@
 local Actor = script.Parent:GetActor()
 
-Actor:BindToMessage("Init", function(MS : ModuleScript?)
+Actor:BindToMessage("Init", function(Data : any?)
 	Actor:SetAttribute("Tasks", Actor:GetAttribute("Tasks")+1)
 	task.desynchronize()
 	while true do
