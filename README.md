@@ -30,7 +30,7 @@ local dispatcher = ClientVM.new(numWorker, nil)
 ├──── ClientVM (LocalScript)<br>
 └──── ServerVM (Script)<br>
 > [!WARNING]
-> ClientVM and ServerVM must be disabled, or will error
+> ClientVM and ServerVM must be disabled, or they will not work
 
 3. Inside ClientVM/ServerVM, copy and paste this into (For testing) :
 
