@@ -27,8 +27,8 @@ local dispatcher = ClientVM.new(numWorker, nil)
 <br>Container (any Folder / Model)<br>
 │<br>
 ├── VMsDispatcher (ModuleScript)<br>
-├── ClientVM (LocalScript)<br>
-└── ServerVM (Script)<br>
+├──── ClientVM (LocalScript)<br>
+└──── ServerVM (Script)<br>
 > [!WARNING]
 > ClientVM and ServerVM must have Enabled = false, or will error
 
