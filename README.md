@@ -32,7 +32,7 @@ local dispatcher = ClientVM.new(numWorker, nil)
 > [!WARNING]
 > ClientVM and ServerVM must have Enabled = false, or will error
 
-3. Inside ClientVM/ServerVM, copy and paste this into :
+3. Inside ClientVM/ServerVM, copy and paste this into (For testing) :
 
 ```lua
 local RS = game:GetService("RunService")
