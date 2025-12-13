@@ -37,7 +37,9 @@ local dispatcher = ClientVM.new(numWorker, nil)
 ```lua
 local RS = game:GetService("RunService")
 
-local Actor = script.Parent:GetActor()
+local Actor = script:GetActor()
+
+if not Actor then return end
 
 Actor:BindToMessage("Init", function(MS : ModuleScript?)
 	Actor:SetAttribute("Tasks", Actor:GetAttribute("Tasks")+1)
@@ -63,7 +65,9 @@ end
 ```lua
 local RS = game:GetService("RunService")
 
-local Actor = script.Parent:GetActor()
+local Actor = script:GetActor()
+
+if not Actor then return end
 
 local message = "DOTASK"
 local AMOUNT_OF_WORK = 1000
