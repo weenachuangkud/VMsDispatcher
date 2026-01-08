@@ -24,7 +24,9 @@ export type Dispatcher = typeof(setmetatable({}, {})) & {
 	Threads: {Actor},
 	Callback: (...any) -> (...any),
 
-	Dispatch: (Dispatcher, ...any) -> (),
+	Dispatch: (Dispatcher, Message : string?, ...any) -> (),
+	DispatchAll: (Dispatcher, Message : string?, ...any) -> (),
+	
 	Allocate: (Dispatcher, Threads: number) -> (),
 }
 
