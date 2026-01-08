@@ -155,8 +155,15 @@ function Dispatcher:Dispatch(Message : string?, ...)
 	Threads[1]:SendMessage(Message or "Dispatch", ...)
 end
 
----- Initialization ----
+function Dispatcher:DispatchAll(Message : string?, ...)
+	for Index, Thread in self.Threads do
+		Thread:SendMessage(Message or "Dispatch", ...)
+	end
+end
 
+---- Initialization ----
+-- NOTE: You can turn this into a Dispatcher.Init(ContainerParent : Instance, VMContainerName : string, VMname : string)
+--- example: https://github.com/weenachuangkud/FastCast2/blob/main/src/FastCast2/FastCastVMs/init.lua
 do
 	if IS_SERVER and not Server or not Client then return end
 	local Actor = Instance.new("Actor")
