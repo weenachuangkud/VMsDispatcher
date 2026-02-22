@@ -4,7 +4,7 @@ Actor:BindToMessage("Init", function(Data : any?)
 	Actor:SetAttribute("Tasks", Actor:GetAttribute("Tasks")+1)
 	task.desynchronize()
 	while true do
-		debug.profilebegin("WhileWorker" .. tostring(math.random(1,100)))
+		debug.profilebegin("Worker task" .. tostring(math.random(1,100)))
 		for i = 1, 100000 do
 			i = i*i*i
 		end
