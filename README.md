@@ -104,6 +104,8 @@ VMsDispatcher is used by FastCast2 to provide an API that allows users to easily
 
 It abstracts thread handling, making it easier for developers to distribute workloads without manually managing low-level threading logic.
 
+(FastCast2 extends and modifies VMsDispatcher to integrate it with an initialization-driven API architecture)
+
 For a usage example, see the repository:
 https://github.com/weenachuangkud/FastCast2
 
