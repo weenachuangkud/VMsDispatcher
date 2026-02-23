@@ -98,4 +98,13 @@ Mess around to find something, now it should look like this :
 > 
 > If you're doing it correctly, you're gonna have 4 separated Threads like in this picture
 
+# How is VMsDispatcher Used?
+
+VMsDispatcher is used by FastCast2 to provide an API that allows users to easily allocate and manage threads through simple initialization.
+
+It abstracts thread handling, making it easier for developers to distribute workloads without manually managing low-level threading logic.
+
+For a usage example, see the repository:
+https://github.com/weenachuangkud/FastCast2
+
 You can learn the API in the src
