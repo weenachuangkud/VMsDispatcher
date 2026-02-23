@@ -38,6 +38,8 @@ local numWorker = 4
 local dispatcher = ClientVM.new(numWorker, nil)
 ```
 
+---
+
 2. Installing VMsDispatcher, the explorer tree should look like this :
 <br>Container (any Folder / Model)<br>
 │<br>
