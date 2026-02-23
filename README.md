@@ -19,11 +19,16 @@ It abstracts Actor communication and workload distribution, allowing you to disp
 ---
 
 
-# Getting started 
+# Getting Started
 
-1. Creating a LocalScript or Script in any Folder/Container, and now copy and paste this
-Name it "VMrunner" or smth like that
-> (You can write your own; you don't need to  copy and paste)
+## 1. Create a Runner Script
+
+Create a `LocalScript` or `Script` inside any container (Folder / Model).
+
+Name it `VMrunner` (or any name you prefer).
+
+You can write your own implementation — copying is optional.
+
 ```lua
 -- Requires
 local ClientVM = require(PathTo.VMsDispatcher)
