@@ -21,7 +21,7 @@ It abstracts Actor communication and workload distribution, allowing you to disp
 
 # Getting Started
 
-## 1. Create a Runner Script
+1. Create a Runner Script
 
 Create a `LocalScript` or `Script` inside any container (Folder / Model).
 
@@ -38,7 +38,6 @@ local numWorker = 4
 local dispatcher = ClientVM.new(numWorker, nil)
 ```
 
----
 
 2. Installing VMsDispatcher, the explorer tree should look like this :
 <br>Container (any Folder / Model)<br>
