@@ -8,11 +8,13 @@ Modified Dispatcher module based on Secure-Cast.
 > The original version can be found here:  
 > https://github.com/1Axen/Secure-Cast/blob/main/src/Dispatcher/init.lua
 
+## What is this?
+
+VMsDispatcher is a parallel scripting module designed to make multi-threading across multiple Actors easier and more manageable.
+
+It abstracts Actor communication and workload distribution, allowing you to dispatch tasks across worker threads efficiently.
+
 ---
-
-
-## What is this about?
-Parallel scripting Module, aimed at making multi-threading for a lot of Actors easier 
 
 
 # Getting started 
