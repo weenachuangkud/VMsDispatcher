@@ -16,6 +16,8 @@ VMsDispatcher is a parallel scripting module designed to make multi-threading ac
 
 It abstracts Actor communication and workload distribution, allowing you to dispatch tasks across worker threads efficiently.
 
+- Load balancing: Uses a "Tasks" attribute on each Actor to track workload and routes new tasks to the least busy worker.
+
 - No dependency on **SharedTable** (when used correctly).
 
 - Designed to be highly customizable.  
