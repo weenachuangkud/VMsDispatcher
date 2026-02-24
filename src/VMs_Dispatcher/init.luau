@@ -1,5 +1,3 @@
---!strict
-
 -- ******************************* --
 -- 			AX3NX / AXEN		   --
 -- ******************************* --
@@ -22,16 +20,16 @@ local IS_SERVER = RunService:IsServer()
 export type Dispatcher = typeof(setmetatable({}, {})) & {
 	Data : any?,
 	Threads: {Actor},
-	Callback: (...any) -> (...any),
+	Callback: (...any) -> (...any)?,
 
 	Dispatch: (Dispatcher, Message : string?, ...any) -> (),
 	DispatchAll: (Dispatcher, Message : string?, ...any) -> (),
-	
+
 	Allocate: (Dispatcher, Threads: number) -> (),
 }
 
-local ServerScript : Script = nil
-local LocalScript : LocalScript = nil
+local ServerScript : Script? = nil
+local LocalScript : LocalScript? = nil
 
 local ClientContainerName = "" 
 local ServerContainerName = ""
@@ -53,8 +51,8 @@ local Dispatcher = {}
 Dispatcher.__index = Dispatcher
 Dispatcher.__type = "Dispatcher"
 
-local Template;
-local Container: Folder;
+local Template: Actor = nil
+local Container: Folder = nil
 
 local ControllerName = (IS_SERVER and ServerControllerName or ClientControllerName)
 local ContainerName = (IS_SERVER and ServerContainerName or ClientContainerName)
@@ -92,7 +90,7 @@ function Dispatcher.new(Threads: number, Data : any?, Callback: (...any) -> (...
 	local self: Dispatcher = setmetatable({
 		Data = Data,
 		Threads = {},
-		Callback = Callback,
+		Callback = Callback
 	} :: any, Dispatcher)
 
 	--> Allocate initial threads
@@ -103,7 +101,7 @@ end
 
 function Dispatcher:Allocate(Threads: number)
 	assert(type(Threads) == "number" and Threads > 0, "Invalid argument #2 to 'Dispatcher.new', threads must be a positive integer.")
-
+	
 	local Actors = {}
 
 	--> Create actors
@@ -151,7 +149,9 @@ end
 function Dispatcher:Dispatch(Message : string?, ...)
 	local Threads: {Actor} = table.clone(self.Threads)
 	table.sort(Threads, function(a: Actor, b: Actor)
-		return (a:GetAttribute("Tasks") < b:GetAttribute("Tasks"))
+		local aTasks = (a:GetAttribute("Tasks") :: number?) or 0
+		local bTasks = (b:GetAttribute("Tasks") :: number?) or 0
+		return aTasks < bTasks
 	end)
 
 	Threads[1]:SendMessage(Message or "Dispatch", ...)
