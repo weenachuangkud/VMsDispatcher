@@ -11,11 +11,7 @@ local ReplicatedFirst = game:GetService("ReplicatedFirst")
 local ServerScriptService = game:GetService("ServerScriptService")
 local RunService = game:GetService("RunService")
 
----- Imports ----
-
----- Settings ----
-
-local IS_SERVER = RunService:IsServer()
+---- Types ----
 
 export type Dispatcher = typeof(setmetatable({}, {})) & {
 	Data : any?,
@@ -27,6 +23,8 @@ export type Dispatcher = typeof(setmetatable({}, {})) & {
 
 	Allocate: (Dispatcher, Threads: number) -> (),
 }
+
+--- Default settings ---
 
 local ServerScript : Script? = nil
 local LocalScript : LocalScript? = nil
@@ -46,6 +44,8 @@ local Server = false
 local UseBindableEvent = false
 
 ---- Constants ----
+
+local IS_SERVER = RunService:IsServer()
 
 local Dispatcher = {}
 Dispatcher.__index = Dispatcher
