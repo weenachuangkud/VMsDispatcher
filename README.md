@@ -22,7 +22,18 @@ It abstracts Actor communication and workload distribution, allowing you to disp
 
 - Designed to be highly customizable.  
   Different implementations of VMsDispatcher can be adapted to suit various system architectures and use cases.
+  **Example — FastCast2**
 
+  In FastCast2, a specialized implementation called `FastCastVMs` is used as the template.
+  Whenever `Caster:Init()` is called, it clones the `FastCastVMs` template and initializes
+  the required parallel actors dynamically.
+
+  This demonstrates how VMsDispatcher can be embedded inside larger systems
+  and tailored to their architecture.
+
+  Read more:
+  https://weenachuangkud.github.io/FastCast2/api/BaseCast#Init
+  
 ---
 
 # Getting Started
