@@ -14,14 +14,13 @@ local RunService = game:GetService("RunService")
 ---- Types ----
 
 export type Dispatcher = typeof(setmetatable({}, {})) & {
-	Data : any?,
 	Threads: {Actor},
 	Callback: (...any) -> (...any)?,
 
 	Dispatch: (Dispatcher, Message : string?, ...any) -> (),
 	DispatchAll: (Dispatcher, Message : string?, ...any) -> (),
 
-	Allocate: (Dispatcher, Threads: number) -> (),
+	Allocate: (Dispatcher, Threads: number, Data: any?) -> (),
 }
 
 ---- Default settings ----
@@ -83,18 +82,17 @@ function Dispatcher.new(Threads: number, Data : any?, Callback: (...any) -> (...
 	assert(type(Threads) == "number" and Threads > 0, "Invalid argument #2 to 'Dispatcher.new', threads must be a positive integer.")
 
 	local self: Dispatcher = setmetatable({
-		Data = Data,
 		Threads = {},
 		Callback = Callback
 	} :: any, Dispatcher)
 
 	--> Allocate initial threads
-	self:Allocate(Threads)
+	self:Allocate(Threads, Data)
 
 	return self
 end
 
-function Dispatcher:Allocate(Threads: number)
+function Dispatcher:Allocate(Threads: number, Data: any?)
 	assert(type(Threads) == "number" and Threads > 0, "Invalid argument #2 to 'Dispatcher.new', threads must be a positive integer.")
 	assert(Template, "Dispatcher Template not initialized")
 	assert(Container, "Dispatcher Container not initialized")
@@ -121,7 +119,7 @@ function Dispatcher:Allocate(Threads: number)
 
 	--> Initialize actors
 	for _, Actor in Actors do
-		Actor:SendMessage("Init", self.Data)
+		Actor:SendMessage("Init", Data)
 	end
 
 	--> Merge actors into threads
