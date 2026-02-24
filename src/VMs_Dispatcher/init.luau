@@ -16,13 +16,10 @@ local RunService = game:GetService("RunService")
 local IS_SERVER = RunService:IsServer()
 
 export type Dispatcher = {
-	Init : (ContainerParent : Instance, VMContainerName : string, VMname : string) -> (),
-	new : (Threads: number, Data: any?, Callback: (...any) -> (...any)?) -> Dispatcher,
+	Init : (newContainerParent : Instance, VMContainerName : string, VMname : string) -> (),
+	new : (Threads: number, Data: any?, Callback: (...any) -> ()?) -> Dispatcher,
 
-	TemplateScript : LocalScript | Script,
-	Data : any?,
 	Threads: {Actor},
-	Callback: (...any) -> (...any),
 
 	Dispatch: (Dispatcher, Message : string?, ...any) -> (),
 	Allocate: (Dispatcher, Threads: number, Data: any?, Callback: (...any) -> ()?) -> (),
@@ -72,13 +69,13 @@ local AlreadyInit = false
 	NOTE : Only once in a client/server
 	
 	<strong>Parameters</strong> :
-		- ContainerParent : The parent of the VM container
+		- newContainerParent : The parent of the VM container
 		- VMContainerName : The name of the VM container
 		- VMContainer : The VM container
 		- VMname : The name of the VM
 	</p>
 ]]
-function Dispatcher.Init(ContainerParent : Instance, VMContainerName : string, VMname : string)
+function Dispatcher.Init(newContainerParent : Instance, VMContainerName : string, VMname : string)
 	if AlreadyInit then 
 		warn("Dispatcher already initialized")
 		return 
@@ -100,7 +97,7 @@ function Dispatcher.Init(ContainerParent : Instance, VMContainerName : string, V
 
 	ControllerName = VMname
 	ContainerName = VMContainerName
-	ContainerParent = ContainerParent
+	ContainerParent = newContainerParent
 
 
 	-- Start
@@ -126,8 +123,8 @@ end
 	
 	<p><strong>Parameters</strong> : 
 		Threads: number - The number of threads to use
-		Module: ModuleScript? - The module to use for the actors
-		Callback: (...any) -> (...any) - The callback to use for the actors
+		Data: any? - The data when actors Init
+		Callback: (...any) -> () - The callback to use for the actors
 		
 	Example :
 		local dispatcher = Dispatcher.new(10, ModuleScript, function(...)
@@ -151,7 +148,7 @@ function Dispatcher.new(Threads: number, Data : any?, Callback: (...any) -> ()?)
 	} :: any, Dispatcher)
 
 	--> Allocate initial threads
-	self:Allocate(Threads, Data)
+	self:Allocate(Threads, Data, Callback)
 
 	return self
 end
@@ -162,7 +159,7 @@ function Dispatcher:Allocate(Threads: number, Data: any?, Callback: (...any) -> 
 	local Actors = {}
 
 	--> Create actors
-	for Index = 1, Threads do
+	for _ = 1, Threads do
 		local Actor = Template:Clone()
 		Actor.Parent = Container
 
@@ -173,7 +170,7 @@ function Dispatcher:Allocate(Threads: number, Data: any?, Callback: (...any) -> 
 			Output.Name = "Output"
 			Output.Parent = Actor
 
-			Actor.Output.Event:Connect(self.Callback)
+			Actor.Output.Event:Connect(Callback)
 		end
 		
 		if controller then
@@ -186,7 +183,7 @@ function Dispatcher:Allocate(Threads: number, Data: any?, Callback: (...any) -> 
 	RunService.PostSimulation:Wait()
 
 	--> Initialize actors
-	for Index, Actor in Actors do
+	for _, Actor in Actors do
 		Actor:SendMessage("Init", Data)
 	end
 
@@ -218,7 +215,7 @@ function Dispatcher:Dispatch(Message : string?, ...)
 end
 
 function Dispatcher:Destroy(destroySource: boolean)
-	for Index, Thread in self.Threads do
+	for _, Thread in self.Threads do
 		Thread:SendMessage("Destroy")
 	end
 	self.Threads = {}
@@ -233,7 +230,7 @@ function Dispatcher:Destroy(destroySource: boolean)
 end
 
 function Dispatcher:DispatchAll(Message : string?, ...)
-	for Index, Thread in self.Threads do
+	for _, Thread in self.Threads do
 		Thread:SendMessage(Message or "Dispatch", ...)
 	end
 end
