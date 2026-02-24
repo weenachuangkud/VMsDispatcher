@@ -5,60 +5,120 @@
 -- Modded by Mawin_CK
 -- Desc : I make it more customizable and more easy to use :P
 
----- Services ----
+-- Services --
 
 local ReplicatedFirst = game:GetService("ReplicatedFirst")
 local ServerScriptService = game:GetService("ServerScriptService")
 local RunService = game:GetService("RunService")
 
----- Types ----
+-- Types --
 
-export type Dispatcher = typeof(setmetatable({}, {})) & {
+local IS_SERVER = RunService:IsServer()
+
+export type Dispatcher = {
+	Init : (ContainerParent : Instance, VMContainerName : string, VMname : string) -> (),
+	new : (Threads: number, Data: any?, Callback: (...any) -> (...any)?) -> Dispatcher,
+
+	TemplateScript : LocalScript | Script,
+	Data : any?,
 	Threads: {Actor},
-	Callback: (...any) -> (...any)?,
+	Callback: (...any) -> (...any),
 
 	Dispatch: (Dispatcher, Message : string?, ...any) -> (),
+	Allocate: (Dispatcher, Threads: number, Data: any?, Callback: (...any) -> ()?) -> (),
 	DispatchAll: (Dispatcher, Message : string?, ...any) -> (),
 
-	Allocate: (Dispatcher, Threads: number, Data: any?) -> (),
+	Destroy : (Dispatcher) -> ()
 }
 
----- Default settings ----
+-- Paths
 
-local ServerScript : Script? = nil
-local LocalScript : LocalScript? = nil
+local ServerScript : Script = script:FindFirstChild("ServerVM")
 
-local ClientContainerName = "" 
-local ServerContainerName = ""
+local LocalScript : LocalScript = script:FindFirstChild("ClientVM")
 
-local ClientControllerName = ""
-local ServerControllerName = ""
+--- Default settings ---
 
 local ClientContainerParent = ReplicatedFirst
 local ServerContainerParent = ServerScriptService
 
-local Client = true
-local Server = false
-
-local UseBindableEvent = false
-
----- Constants ----
-
-local IS_SERVER = RunService:IsServer()
+-- Constants --
 
 local Dispatcher = {}
 Dispatcher.__index = Dispatcher
 Dispatcher.__type = "Dispatcher"
 
-local Template: Actor = nil
-local Container: Folder = nil
+local Template;
+local Container;
 
-local ControllerName = (IS_SERVER and ServerControllerName or ClientControllerName)
-local ContainerName = (IS_SERVER and ServerContainerName or ClientContainerName)
+local ControllerName = ""
+local ContainerName = ""
 local ContainerParent = (IS_SERVER and ServerContainerParent or ClientContainerParent)
 
+-- Variables --
 
----- Public functions ----
+local AlreadyInit = false
+
+
+-- Private Functions --
+
+
+-- Public Functions --
+
+--[[
+	<p>
+	Initialize the dispatcher
+	
+	NOTE : Only once in a client/server
+	
+	<strong>Parameters</strong> :
+		- ContainerParent : The parent of the VM container
+		- VMContainerName : The name of the VM container
+		- VMContainer : The VM container
+		- VMname : The name of the VM
+	</p>
+]]
+function Dispatcher.Init(ContainerParent : Instance, VMContainerName : string, VMname : string)
+	if AlreadyInit then 
+		warn("Dispatcher already initialized")
+		return 
+	end
+
+	-- Init
+
+	local Actor = Instance.new("Actor")
+	Actor:SetAttribute("Tasks", 0)		
+
+	local Controller
+	if IS_SERVER then
+		Controller = ServerScript and ServerScript:Clone()
+	else
+		Controller = LocalScript and LocalScript:Clone()
+	end
+
+	-- Setup
+
+	ControllerName = VMname
+	ContainerName = VMContainerName
+	ContainerParent = ContainerParent
+
+
+	-- Start
+
+	assert(Controller, "Controller script not found or not valid")
+
+	Controller.Name = ControllerName or "Controller"
+	Controller.Parent = Actor
+	Actor.Parent = script
+
+	Template = Actor :: any
+
+	Container = Instance.new("Folder")
+	Container.Name = ContainerName or "DISPATCHER_THREADS"
+	Container.Parent = ContainerParent
+
+	AlreadyInit = true
+end
 
 
 --[[
@@ -66,7 +126,7 @@ local ContainerParent = (IS_SERVER and ServerContainerParent or ClientContainerP
 	
 	<p><strong>Parameters</strong> : 
 		Threads: number - The number of threads to use
-		Data - the any kind of data for actors to use when init
+		Module: ModuleScript? - The module to use for the actors
 		Callback: (...any) -> (...any) - The callback to use for the actors
 		
 	Example :
@@ -77,13 +137,17 @@ local ContainerParent = (IS_SERVER and ServerContainerParent or ClientContainerP
 	
 	@return Dispatcher
 ]]
-function Dispatcher.new(Threads: number, Data : any?, Callback: (...any) -> (...any)?): Dispatcher
+function Dispatcher.new(Threads: number, Data : any?, Callback: (...any) -> ()?): Dispatcher
 	--assert(typeof(Module) == "Instance" and Module:IsA("ModuleScript"), "Invalid argument #1 to 'Dispatcher.new', module must be a module script.")
 	assert(type(Threads) == "number" and Threads > 0, "Invalid argument #2 to 'Dispatcher.new', threads must be a positive integer.")
 
+	if not AlreadyInit then
+		error("Please Init dispatcher, RunContext : " .. IS_SERVER and "Server"or "Client")
+	end
+
+
 	local self: Dispatcher = setmetatable({
-		Threads = {},
-		Callback = Callback
+		Threads = {}
 	} :: any, Dispatcher)
 
 	--> Allocate initial threads
@@ -92,24 +156,28 @@ function Dispatcher.new(Threads: number, Data : any?, Callback: (...any) -> (...
 	return self
 end
 
-function Dispatcher:Allocate(Threads: number, Data: any?)
+function Dispatcher:Allocate(Threads: number, Data: any?, Callback: (...any) -> (...any)?)
 	assert(type(Threads) == "number" and Threads > 0, "Invalid argument #2 to 'Dispatcher.new', threads must be a positive integer.")
-	assert(Template, "Dispatcher Template not initialized")
-	assert(Container, "Dispatcher Container not initialized")
 
 	local Actors = {}
 
 	--> Create actors
-	for _ = 1, Threads do
+	for Index = 1, Threads do
 		local Actor = Template:Clone()
 		Actor.Parent = Container
 
 		local controller = Actor:FindFirstChild(ControllerName)
+		
+		if Callback then
+			local Output = Instance.new("BindableEvent")
+			Output.Name = "Output"
+			Output.Parent = Actor
+
+			Actor.Output.Event:Connect(self.Callback)
+		end
+		
 		if controller then
 			controller.Enabled = true
-		end
-		if Actor:FindFirstChild("Output") and self.Callback then
-			Actor.Output.Event:Connect(self.Callback)
 		end
 		table.insert(Actors, Actor)
 	end
@@ -118,7 +186,7 @@ function Dispatcher:Allocate(Threads: number, Data: any?)
 	RunService.PostSimulation:Wait()
 
 	--> Initialize actors
-	for _, Actor in Actors do
+	for Index, Actor in Actors do
 		Actor:SendMessage("Init", Data)
 	end
 
@@ -144,58 +212,31 @@ end
 function Dispatcher:Dispatch(Message : string?, ...)
 	local Threads: {Actor} = table.clone(self.Threads)
 	table.sort(Threads, function(a: Actor, b: Actor)
-		local aTasks = (a:GetAttribute("Tasks") :: number?) or 0
-		local bTasks = (b:GetAttribute("Tasks") :: number?) or 0
-		return aTasks < bTasks
+		return (a:GetAttribute("Tasks") < b:GetAttribute("Tasks"))
 	end)
-
 	Threads[1]:SendMessage(Message or "Dispatch", ...)
 end
 
+function Dispatcher:Destroy(destroySource: boolean)
+	for Index, Thread in self.Threads do
+		Thread:SendMessage("Destroy")
+	end
+	self.Threads = {}
+
+	task.spawn(function()
+		while #Container:GetChildren() ~= 0 do task.wait() end
+		Container:Destroy()
+		if destroySource then
+			script:Destroy()
+		end
+	end)
+end
+
 function Dispatcher:DispatchAll(Message : string?, ...)
-	for _, Thread in self.Threads do
+	for Index, Thread in self.Threads do
 		Thread:SendMessage(Message or "Dispatch", ...)
 	end
 end
 
----- Initialization ----
--- NOTE: You can turn this into a Dispatcher.Init(ContainerParent : Instance, VMContainerName : string, VMname : string)
---- example: https://github.com/weenachuangkud/FastCast2/blob/main/src/FastCast2/FastCastVMs/init.lua
-do
-	if IS_SERVER and not Server or not Client then return end
-	local Actor = Instance.new("Actor")
-	Actor:SetAttribute("Tasks", 0)
-
-	if UseBindableEvent then
-		local Output = Instance.new("BindableEvent")
-		Output.Name = "Output"
-		Output.Parent = Actor
-	end
-
-	local Controller
-	if IS_SERVER then
-		Controller = ServerScript and ServerScript:Clone()
-	else
-		Controller = LocalScript and LocalScript:Clone()
-	end
-
-	assert(Controller, "Controller script not found or not valid")
-
-	Controller.Name = ControllerName or "Controller"
-	Controller.Parent = Actor
-	Actor.Parent = script
-
-	Template = Actor :: any
-end
-
-do
-	if IS_SERVER and not Server or not Client then return end
-	Container = Instance.new("Folder")
-	Container.Name = ContainerName or "DISPATCHER_THREADS"
-	Container.Parent = ContainerParent
-end
-
----- Connections ----
 
 return Dispatcher
-
