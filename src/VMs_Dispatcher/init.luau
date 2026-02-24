@@ -7,7 +7,7 @@
 
 ---- Services ----
 
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
+--local ReplicatedFirst = game:GetService("ReplicatedFirst")
 local ServerScriptService = game:GetService("ServerScriptService")
 local RunService = game:GetService("RunService")
 
@@ -105,7 +105,7 @@ function Dispatcher:Allocate(Threads: number)
 	local Actors = {}
 
 	--> Create actors
-	for Index = 1, Threads do
+	for _ = 1, Threads do
 		local Actor = Template:Clone()
 		Actor.Parent = Container
 
@@ -123,7 +123,7 @@ function Dispatcher:Allocate(Threads: number)
 	RunService.PostSimulation:Wait()
 
 	--> Initialize actors
-	for Index, Actor in Actors do
+	for _, Actor in Actors do
 		Actor:SendMessage("Init", self.Data)
 	end
 
@@ -158,7 +158,7 @@ function Dispatcher:Dispatch(Message : string?, ...)
 end
 
 function Dispatcher:DispatchAll(Message : string?, ...)
-	for Index, Thread in self.Threads do
+	for _, Thread in self.Threads do
 		Thread:SendMessage(Message or "Dispatch", ...)
 	end
 end
