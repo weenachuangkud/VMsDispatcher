@@ -101,7 +101,9 @@ end
 
 function Dispatcher:Allocate(Threads: number)
 	assert(type(Threads) == "number" and Threads > 0, "Invalid argument #2 to 'Dispatcher.new', threads must be a positive integer.")
-	
+	assert(Template, "Dispatcher Template not initialized")
+	assert(Container, "Dispatcher Container not initialized")
+
 	local Actors = {}
 
 	--> Create actors
