@@ -7,7 +7,7 @@
 
 ---- Services ----
 
---local ReplicatedFirst = game:GetService("ReplicatedFirst")
+local ReplicatedFirst = game:GetService("ReplicatedFirst")
 local ServerScriptService = game:GetService("ServerScriptService")
 local RunService = game:GetService("RunService")
 
@@ -37,7 +37,7 @@ local ServerContainerName = ""
 local ClientControllerName = ""
 local ServerControllerName = ""
 
-local ClientContainerParent = nil
+local ClientContainerParent = ReplicatedFirst
 local ServerContainerParent = ServerScriptService
 
 local Client = true
