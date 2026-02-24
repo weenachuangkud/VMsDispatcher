@@ -24,7 +24,7 @@ export type Dispatcher = typeof(setmetatable({}, {})) & {
 	Allocate: (Dispatcher, Threads: number) -> (),
 }
 
---- Default settings ---
+---- Default settings ----
 
 local ServerScript : Script? = nil
 local LocalScript : LocalScript? = nil
@@ -58,13 +58,8 @@ local ControllerName = (IS_SERVER and ServerControllerName or ClientControllerNa
 local ContainerName = (IS_SERVER and ServerContainerName or ClientContainerName)
 local ContainerParent = (IS_SERVER and ServerContainerParent or ClientContainerParent)
 
----- Variables ----
 
-
----- Private Functions ----
-
-
----- Public Functions ----
+---- Public functions ----
 
 
 --[[
