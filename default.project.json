@@ -3,7 +3,7 @@
 	"tree": {
 		"$className": "DataModel",
 		"ReplicatedStorage": {
-			"VMsDispatcher": {
+			"FastCast2": {
 				"$path": "src/VMsDispatcher"
 			}
 		}
