@@ -1,1 +1,3 @@
 std = "roblox"
+[lints]
+multiple_statements = "allows"

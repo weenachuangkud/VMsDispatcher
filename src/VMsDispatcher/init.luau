@@ -221,7 +221,9 @@ function Dispatcher:Destroy(destroySource: boolean)
 	self.Threads = {}
 
 	task.spawn(function()
-		while #Container:GetChildren() ~= 0 do task.wait() end
+		while #Container:GetChildren() ~= 0 do 
+			task.wait() 
+		end
 		Container:Destroy()
 		if destroySource then
 			script:Destroy()

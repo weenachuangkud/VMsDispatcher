@@ -28,9 +28,9 @@ export type Dispatcher = {
 	Destroy : (Dispatcher) -> ()
 }
 
--- Paths
+--- Paths ---
 
-local ServerScript : Script = script:FindFirstChild("ServerVM")
+local ServerScript : Script = script:FindFirstChild("Worker")
 
 local LocalScript : LocalScript = script:FindFirstChild("ClientVM")
 
@@ -39,7 +39,7 @@ local LocalScript : LocalScript = script:FindFirstChild("ClientVM")
 local ClientContainerParent = ReplicatedFirst
 local ServerContainerParent = ServerScriptService
 
--- Constants --
+--- Constants ---
 
 local Dispatcher = {}
 Dispatcher.__index = Dispatcher
@@ -52,12 +52,9 @@ local ControllerName = ""
 local ContainerName = ""
 local ContainerParent = (IS_SERVER and ServerContainerParent or ClientContainerParent)
 
--- Variables --
+--- Variables ---
 
 local AlreadyInit = false
-
-
--- Private Functions --
 
 
 -- Public Functions --
@@ -88,9 +85,11 @@ function Dispatcher.Init(newContainerParent : Instance, VMContainerName : string
 
 	local Controller
 	if IS_SERVER then
-		Controller = ServerScript and ServerScript:Clone()
+		assert(ServerScript, "ServerScript path not set")
+		Controller = ServerScript:Clone()
 	else
-		Controller = LocalScript and LocalScript:Clone()
+		assert(LocalScript, "LocalScript path not set")
+		Controller = LocalScript:Clone()
 	end
 
 	-- Setup
@@ -98,7 +97,6 @@ function Dispatcher.Init(newContainerParent : Instance, VMContainerName : string
 	ControllerName = VMname
 	ContainerName = VMContainerName
 	ContainerParent = newContainerParent
-
 
 	-- Start
 

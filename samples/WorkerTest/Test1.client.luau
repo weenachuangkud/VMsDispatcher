@@ -1,9 +1,8 @@
 -- Services
-local Rep = game:GetService("ReplicatedStorage")
 local RepFirst = game:GetService("ReplicatedFirst")
 
 -- Requires
-local DispatcherModule = require(Rep:WaitForChild("VMsDispatcher"))
+local DispatcherModule = require(PathTo:WaitForChild("WorkerTestVMs"))
 
 -- Test
 
