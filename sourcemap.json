@@ -1,4 +1,38 @@
 {
-  "name": "game",
-  "className": "DataModel"
+  "name": "VMsDispatcher",
+  "className": "DataModel",
+  "filePaths": [
+    "default.project.json"
+  ],
+  "children": [
+    {
+      "name": "ReplicatedStorage",
+      "className": "ReplicatedStorage",
+      "children": [
+        {
+          "name": "FastCast2",
+          "className": "ModuleScript",
+          "filePaths": [
+            "src/VMsDispatcher/init.luau"
+          ],
+          "children": [
+            {
+              "name": "ClientVM",
+              "className": "ModuleScript",
+              "filePaths": [
+                "src/VMsDispatcher/ClientVM.luau"
+              ]
+            },
+            {
+              "name": "ServerVM",
+              "className": "ModuleScript",
+              "filePaths": [
+                "src/VMsDispatcher/ServerVM.luau"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
