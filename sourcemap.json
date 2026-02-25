@@ -10,7 +10,7 @@
       "className": "ReplicatedStorage",
       "children": [
         {
-          "name": "FastCast2",
+          "name": "VMsDispatcher",
           "className": "ModuleScript",
           "filePaths": [
             "src/VMsDispatcher/init.luau"
@@ -18,16 +18,18 @@
           "children": [
             {
               "name": "ClientVM",
-              "className": "ModuleScript",
+              "className": "LocalScript",
               "filePaths": [
-                "src/VMsDispatcher/ClientVM.luau"
+                "src/VMsDispatcher/ClientVM.client.luau",
+                "src/VMsDispatcher/ClientVM.meta.json"
               ]
             },
             {
               "name": "ServerVM",
-              "className": "ModuleScript",
+              "className": "Script",
               "filePaths": [
-                "src/VMsDispatcher/ServerVM.luau"
+                "src/VMsDispatcher/ServerVM.server.luau",
+                "src/VMsDispatcher/ServerVM.meta.json"
               ]
             }
           ]
