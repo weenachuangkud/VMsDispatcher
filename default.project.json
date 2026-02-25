@@ -6,6 +6,13 @@
 			"FastCast2": {
 				"$path": "src/VMsDispatcher"
 			}
-		}
+		},
+
+        "StarterPlayer": {
+            "StarterPlayerScripts": {
+                "$path"
+            }
+        },
+        "$ignoreUnknownInstances": true
     }
 }

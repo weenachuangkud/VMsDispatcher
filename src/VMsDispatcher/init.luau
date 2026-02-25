@@ -28,7 +28,7 @@ export type Dispatcher = {
 	Destroy : (Dispatcher) -> ()
 }
 
--- Paths
+--- Paths ---
 
 local ServerScript : Script = script:FindFirstChild("ServerVM")
 
@@ -39,7 +39,7 @@ local LocalScript : LocalScript = script:FindFirstChild("ClientVM")
 local ClientContainerParent = ReplicatedFirst
 local ServerContainerParent = ServerScriptService
 
--- Constants --
+--- Constants ---
 
 local Dispatcher = {}
 Dispatcher.__index = Dispatcher
@@ -52,12 +52,9 @@ local ControllerName = ""
 local ContainerName = ""
 local ContainerParent = (IS_SERVER and ServerContainerParent or ClientContainerParent)
 
--- Variables --
+--- Variables ---
 
 local AlreadyInit = false
-
-
--- Private Functions --
 
 
 -- Public Functions --
