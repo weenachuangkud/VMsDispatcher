@@ -7,5 +7,6 @@
 				"$path": "src/VMsDispatcher"
 			}
 		}
-	}
+	},
+    "$ignoreUnknownInstances": true
 }
