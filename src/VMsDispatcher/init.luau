@@ -85,9 +85,11 @@ function Dispatcher.Init(newContainerParent : Instance, VMContainerName : string
 
 	local Controller
 	if IS_SERVER then
-		Controller = ServerScript and ServerScript:Clone()
+		assert(ServerScript, "ServerScript path not set")
+		Controller = ServerScript:Clone()
 	else
-		Controller = LocalScript and LocalScript:Clone()
+		assert(LocalScript, "LocalScript path not set")
+		Controller = LocalScript:Clone()
 	end
 
 	-- Setup
@@ -95,7 +97,6 @@ function Dispatcher.Init(newContainerParent : Instance, VMContainerName : string
 	ControllerName = VMname
 	ContainerName = VMContainerName
 	ContainerParent = newContainerParent
-
 
 	-- Start
 
