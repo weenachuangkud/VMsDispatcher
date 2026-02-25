@@ -209,7 +209,9 @@ end
 function Dispatcher:Dispatch(Message : string?, ...)
 	local Threads: {Actor} = table.clone(self.Threads)
 	table.sort(Threads, function(a: Actor, b: Actor)
-		return (a:GetAttribute("Tasks") < b:GetAttribute("Tasks"))
+		local aTasks = a:GetAttribute("Tasks") or 0
+		local bTasks = b:GetAttribute("Tasks") or 0
+		return aTasks < bTasks
 	end)
 	Threads[1]:SendMessage(Message or "Dispatch", ...)
 end
