@@ -166,7 +166,6 @@ https://github.com/weenachuangkud/VMsDispatcher/blob/main/pictures/microprofiler
 ---
 
 
-
 # How is VMsDispatcher Used?
 
 VMsDispatcher is used by FastCast2 to provide an API that allows users to easily allocate and manage threads through initialization.
@@ -177,5 +176,3 @@ FastCast2 extends and modifies VMsDispatcher to integrate it into an initializat
 
 For a usage example, see:  
 https://github.com/weenachuangkud/FastCast2
-
-You can also explore the API inside the `src` folder.
