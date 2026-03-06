@@ -160,7 +160,7 @@ If everything is set up correctly:
 You should see multiple separated worker threads (e.g., 4 threads if `numWorker = 4`).
 
 MicroProfiler reference image:  
-https://github.com/weenachuangkud/VMsDispatcher/blob/main/pictures/microprofiler1
+[Microprofiler](link)
 
 
 ---
