@@ -3,9 +3,7 @@
 Modified Dispatcher module based on Secure-Cast.
 
 > [!NOTE]
-> I DO NOT OWN THIS MODULE.  
-> I ONLY MODIFIED IT.  
-> The original version can be found here:  
+> The original version:  
 > https://github.com/1Axen/Secure-Cast/blob/main/src/Dispatcher/init.lua
 
 ---
