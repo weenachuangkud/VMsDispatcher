@@ -52,8 +52,6 @@ local numWorker = 4
 local dispatcher = ClientVM.new(numWorker, nil)
 ```
 
----
-
 ### 2. Install VMsDispatcher
 
 Your Explorer tree should look like this:
@@ -68,8 +66,6 @@ Container (Folder / Model)
 
 > [!WARNING]
 > `ClientVM` and `ServerVM` must be **disabled**, or they will not work properly.
-
----
 
 ### 3. Test Worker Script
 
@@ -96,8 +92,6 @@ Actor:BindToMessage("Init", function(MS : ModuleScript?)
 end)
 ```
 
----
-
 ### 4. Dispatch Tasks
 
 Inside `VMrunner`, add:
@@ -109,8 +103,6 @@ while task.wait(0.1) do
 	dispatcher:Dispatch(message)
 end
 ```
-
----
 
 ### 5. Replace Worker Logic (Improved Example)
 
@@ -142,8 +134,6 @@ Actor:BindToMessage(message, function()
 	end)
 end)
 ```
-
----
 
 ### 6. Testing
 
