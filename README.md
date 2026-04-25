@@ -31,8 +31,7 @@ It abstracts Actor communication and workload distribution, allowing you to disp
 
   Read more:
   https://weenachuangkud.github.io/FastCast2/api/BaseCast#Init
-  
----
+
 
 # Getting Started
 
