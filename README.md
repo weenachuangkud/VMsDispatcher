@@ -12,6 +12,9 @@ Modified Dispatcher module based on Secure-Cast.
 
 - [What is this?](#what-is-this)
   - [FastCast2 Integration](#fastcast2-integration)
+- [Installation](#installation)
+  - [Option A — Rojo](#option-a--rojo-recommended)
+  - [Option B — Roblox Studio](#option-b--roblox-studio-manual)
 - [Getting Started](#getting-started)
   - [1. Create a Runner Script](#1-create-a-runner-script)
   - [2. Install VMsDispatcher](#2-install-vmsdispatcher)
@@ -42,6 +45,49 @@ In FastCast2, a specialized implementation called `FastCastVMs` is used as the t
 This demonstrates how VMsDispatcher can be embedded inside larger systems and tailored to their architecture.
 
 Read more: [FastCast2 — BaseCast.Init()](https://weenachuangkud.github.io/FastCast2/api/BaseCast#Init)
+
+# Installation
+
+### Option A — Rojo (Recommended)
+
+If you're using [Rojo](https://rojo.space/):
+
+1. Clone this repository or copy the `src/VMsDispatcher/` folder into your project.
+2. Add the module to your `default.project.json`:
+
+   ```json
+   {
+     "name": "MyProject",
+     "tree": {
+       "$className": "DataModel",
+       "ReplicatedStorage": {
+         "VMsDispatcher": {
+           "$path": "path/to/VMsDispatcher"
+         }
+       },
+       "$ignoreUnknownInstances": true
+     }
+   }
+   ```
+
+3. Run `rojo serve` and sync to Roblox Studio.
+
+The module will appear in `ReplicatedStorage.VMsDispatcher`.
+
+### Option B — Roblox Studio (Manual)
+
+1. Open your place in Roblox Studio.
+2. Insert a **ModuleScript** into `ReplicatedStorage` (or any container you prefer).
+3. Rename it to `VMsDispatcher`.
+4. Open the source files from this repo:
+   - `src/VMsDispatcher/init.luau` — main module logic
+   - `src/VMsDispatcher/ClientVM.client.luau` — client actor code
+   - `src/VMsDispatcher/ServerVM.server.luau` — server actor code
+5. Copy the contents into the corresponding scripts in Studio.
+
+The module is now ready to `require()`.
+
+---
 
 # Getting Started
 
