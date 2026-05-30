@@ -8,6 +8,21 @@ Modified Dispatcher module based on Secure-Cast.
 
 ---
 
+## Table of Contents
+
+- [What is this?](#what-is-this)
+  - [FastCast2 Integration](#fastcast2-integration)
+- [Getting Started](#getting-started)
+  - [1. Create a Runner Script](#1-create-a-runner-script)
+  - [2. Install VMsDispatcher](#2-install-vmsdispatcher)
+  - [3. Test Worker Script](#3-test-worker-script)
+  - [4. Dispatch Tasks](#4-dispatch-tasks)
+  - [5. Replace Worker Logic](#5-replace-worker-logic-improved-example)
+  - [6. Testing](#6-testing)
+- [How is VMsDispatcher Used?](#how-is-vmsdispatcher-used)
+
+---
+
 ## What is this?
 
 VMsDispatcher is a parallel scripting module designed to make multi-threading across multiple Actors easier and more manageable.
@@ -18,20 +33,15 @@ It abstracts Actor communication and workload distribution, allowing you to disp
 
 - No dependency on **SharedTable** (when used correctly).
 
-- Designed to be highly customizable.  
-  Different implementations of VMsDispatcher can be adapted to suit various system architectures and use cases.
-  **Example — FastCast2**
+- Designed to be highly customizable — different implementations can be adapted to suit various system architectures and use cases.
 
-  In FastCast2, a specialized implementation called `FastCastVMs` is used as the template.
-  Whenever `Caster:Init()` is called, it clones the `FastCastVMs` template and initializes
-  the required parallel actors dynamically.
+### FastCast2 Integration
 
-  This demonstrates how VMsDispatcher can be embedded inside larger systems
-  and tailored to their architecture.
+In FastCast2, a specialized implementation called `FastCastVMs` is used as the template. Whenever `Caster:Init()` is called, it clones the `FastCastVMs` template and initializes the required parallel actors dynamically.
 
-  Read more:
-  https://weenachuangkud.github.io/FastCast2/api/BaseCast#Init
+This demonstrates how VMsDispatcher can be embedded inside larger systems and tailored to their architecture.
 
+Read more: [FastCast2 — BaseCast.Init()](https://weenachuangkud.github.io/FastCast2/api/BaseCast#Init)
 
 # Getting Started
 
@@ -147,7 +157,7 @@ If everything is set up correctly:
 You should see multiple separated worker threads (e.g., 4 threads if `numWorker = 4`).
 
 MicroProfiler reference image:  
-[Microprofiler](link)
+[MicroProfiler](https://create.roblox.com/docs/studio/microprofiler)
 
 
 ---
@@ -162,4 +172,4 @@ It abstracts thread handling, making it easier for developers to distribute work
 FastCast2 extends and modifies VMsDispatcher to integrate it into an initialization-driven API architecture.
 
 For a usage example, see:  
-https://github.com/weenachuangkud/FastCast2
+[FastCast2 on GitHub](https://github.com/weenachuangkud/FastCast2)
