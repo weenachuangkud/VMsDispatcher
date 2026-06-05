@@ -160,7 +160,7 @@ while task.wait(0.1) do
 end
 ```
 
-### 5. Replace Worker Logic (Improved Example)
+### 5. Replace Worker Logic (load-balancing Example)
 
 Inside `ClientVM` or `ServerVM`, replace the previous code with:
 
