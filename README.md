@@ -1,6 +1,6 @@
 # VMsDispatcher
 
-Modified Dispatcher module based on Secure-Cast.
+Modified Dispatcher module based on SecureCast.
 
 > [!NOTE] 
 > The original version can be found here: 
