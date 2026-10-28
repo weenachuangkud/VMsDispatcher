@@ -11,7 +11,7 @@ Modified Dispatcher module based on Secure-Cast.
 ## Table of Contents
 
 - [What is this?](#what-is-this)
-  - [FastCast2 Integration](#fastcast2-integration)
+  - [Integration](#integration)
 - [Installation](#installation)
   - [Option A — Rojo](#option-a--rojo-recommended)
   - [Option B — Roblox Studio](#option-b--roblox-studio-manual)
@@ -36,11 +36,11 @@ It abstracts Actor communication and workload distribution, allowing you to disp
 
 - No dependency on **SharedTable** (when used correctly).
 
-- Designed to be highly customizable — different implementations can be adapted to suit various system architectures and use cases.
+- Designed to be highly customizable, different implementations can be adapted to suit various system architectures and use cases.
 
-### FastCast2 Integration
+### Integration
 
-In FastCast2, a specialized implementation called `FastCastVMs` is used as the template. Whenever `Caster:Init()` is called, it clones the `FastCastVMs` template and initializes the required parallel actors dynamically.
+Take [FastCast2Parallel](github.com/weenachuangkud/FastCast2Parallel) as an example, there's specialized implementation called `FastCastVMs` is used as the template. Whenever `FastCastParallel:Init(numWorkers, ...)` is called, it clones the `FastCastVMs` template and initializes the required parallel actors dynamically.
 
 This demonstrates how VMsDispatcher can be embedded inside larger systems and tailored to their architecture.
 
