@@ -60,7 +60,7 @@ local numWorker = 4
 local dispatcher = ClientVM.new(numWorker, nil)
 ```
 
-### 2. Install VMsDispatcher
+### 2. verify VMsDispatcher
 
 Your Explorer tree should look like this:
 
