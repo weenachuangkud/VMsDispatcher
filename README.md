@@ -4,27 +4,7 @@ Modified Dispatcher module based on Secure-Cast.
 
 > [!NOTE] 
 > The original version can be found here: 
-> https://github.com/1Axen/Secure-Cast/blob/main/src/Dispatcher/init.lua
-
----
-
-## Table of Contents
-
-- [What is this?](#what-is-this)
-  - [Integration](#integration)
-- [Installation](#installation)
-  - [Option A — Rojo](#option-a--rojo-recommended)
-  - [Option B — Roblox Studio](#option-b--roblox-studio-manual)
-- [Getting Started](#getting-started)
-  - [1. Create a Runner Script](#1-create-a-runner-script)
-  - [2. Install VMsDispatcher](#2-install-vmsdispatcher)
-  - [3. Test Worker Script](#3-test-worker-script)
-  - [4. Dispatch Tasks](#4-dispatch-tasks)
-  - [5. Replace Worker Logic](#5-replace-worker-logic-improved-example)
-  - [6. Testing](#6-testing)
-- [How is VMsDispatcher Used?](#how-is-vmsdispatcher-used)
-
----
+> https://github.com/1Axen/Secure-Cast/blob/main/src/Dispatcher/init.luau
 
 ## What is this?
 
@@ -46,43 +26,15 @@ This demonstrates how VMsDispatcher can be embedded inside larger systems and ta
 
 Read more: [FastCast2 — BaseCast.Init()](https://weenachuangkud.github.io/FastCast2/api/BaseCast#Init)
 
-# Installation
-
-### Option A — Rojo (Recommended)
-
-If you're using [Rojo](https://rojo.space/):
-
-1. Clone this repository or copy the `src/VMsDispatcher/` folder into your project.
-2. Add the module to your `default.project.json`:
-
-   ```json
-   {
-     "name": "MyProject",
-     "tree": {
-       "$className": "DataModel",
-       "ReplicatedStorage": {
-         "VMsDispatcher": {
-           "$path": "path/to/VMsDispatcher"
-         }
-       },
-       "$ignoreUnknownInstances": true
-     }
-   }
-   ```
-
-3. Run `rojo serve` and sync to Roblox Studio.
-
-The module will appear in `ReplicatedStorage.VMsDispatcher`.
-
-### Option B — Roblox Studio (Manual)
+### Manual setup instruction
 
 1. Open your place in Roblox Studio.
 2. Insert a **ModuleScript** into `ReplicatedStorage` (or any container you prefer).
-3. Rename it to `VMsDispatcher`.
+3. Rename it to `VMsDispatcher` or whatever you like.
 4. Open the source files from this repo:
    - `src/VMsDispatcher/init.luau` — main module logic
-   - `src/VMsDispatcher/ClientVM.client.luau` — client actor code
-   - `src/VMsDispatcher/ServerVM.server.luau` — server actor code
+   - `src/VMsDispatcher/ClientVM.client.luau` - client actor code
+   - `src/VMsDispatcher/ServerVM.server.luau` - server actor code
 5. Copy the contents into the corresponding scripts in Studio.
 
 The module is now ready to `require()`.
@@ -97,7 +49,7 @@ Create a `LocalScript` or `Script` inside any container (Folder / Model).
 
 Name it `VMrunner` (or any name you prefer).
 
-You can write your own implementation — copying is optional.
+You can write your own implementation, copying is optional.
 
 ```lua
 -- Requires
@@ -204,18 +156,3 @@ You should see multiple separated worker threads (e.g., 4 threads if `numWorker 
 
 MicroProfiler reference image:  
 [MicroProfiler](https://create.roblox.com/docs/studio/microprofiler)
-
-
----
-
-
-# How is VMsDispatcher Used?
-
-VMsDispatcher is used by FastCast2 to provide an API that allows users to easily allocate and manage threads through initialization.
-
-It abstracts thread handling, making it easier for developers to distribute workloads without manually managing low-level threading logic.
-
-FastCast2 extends and modifies VMsDispatcher to integrate it into an initialization-driven API architecture.
-
-For a usage example, see:  
-[FastCast2 on GitHub](https://github.com/weenachuangkud/FastCast2)
